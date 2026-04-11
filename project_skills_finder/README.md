@@ -1,4 +1,4 @@
-# project_skills_finder
+﻿# project_skills_finder
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -76,7 +76,7 @@ The global skill will look for project-local docs in this order:
 2. Add an `INDEX.md` as the main entry
 3. Let the global skill route into those docs
 4. Track usage in `SKILL_ANALYZATION_DATA.md`
-5. Refine, split, or remove project skill docs based on real usage
+5. Refine, split, or remove project skill docs based on real usage`r`n6. If a task changes the same problem area covered by a project skill doc, review whether that doc should be refreshed
 
 ## Suggested project structure
 
@@ -122,3 +122,4 @@ This pattern is for something different: project knowledge that should be versio
 - This repo is a pattern and starter kit, not a heavy framework.
 - The global skill should stay small.
 - Project-local docs should remain the source of truth.
+

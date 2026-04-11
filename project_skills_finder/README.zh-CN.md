@@ -1,4 +1,4 @@
-# project_skills_finder
+﻿# project_skills_finder
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -76,7 +76,7 @@ docs/
 2. 增加一个 `INDEX.md` 作为总入口
 3. 让全局 skill 把任务路由到这些文档
 4. 在 `SKILL_ANALYZATION_DATA.md` 里记录使用效果
-5. 根据真实使用情况继续拆分、合并或优化文档
+5. 根据真实使用情况继续拆分、合并或优化文档`r`n6. 如果任务修改了该 skill 文档覆盖的问题域代码，也应回看这份文档是否需要同步更新
 
 ## 推荐项目结构
 
@@ -122,3 +122,4 @@ memory 更适合记录偏好、协作习惯和一些长期上下文。
 - 这不是一个重型框架，而是一套模式和 starter kit
 - 全局 skill 应该尽量保持轻量
 - 项目内文档应始终作为真正的知识来源
+

@@ -1,4 +1,4 @@
----
+﻿---
 name: project-skill-finder
 description: Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment, SSH, vault, plugin, rendering, or similar development tasks. Use only for project work, not general chat. Prefer project-local docs in docs/skills/ or skills/ before doing deeper repository work.
 ---
@@ -30,7 +30,7 @@ Use this skill only for project development tasks.
 - Keep `not_useful_reasons` short and stable when possible. Prefer labels such as `description_unclear`, `wrong_trigger`, `outdated_content`, `missing_key_files`, `too_shallow`, `too_broad`, or `poor_examples`.
 - Update `last_used_at` using `yyyy-MM-dd HH:mm:ss` and refresh `notes` when useful.
 - Mentioning a project skill by name without reading it does not count as usage.
-- In multi-agent tasks, prefer having the main agent perform the shared data update.
+- In multi-agent tasks, prefer having the main agent perform the shared data update.`r`n- If a task used a project skill doc and also changed code, tests, entrypoints, or behavior in that same problem area, review whether the skill doc should be refreshed before closing the task.`r`n- If the doc is clearly outdated, update it; if the need is plausible but uncertain, explicitly prompt whether the project skill doc should be updated.
 
 ## Context Budget
 
@@ -41,3 +41,4 @@ Use this skill only for project development tasks.
 ## Skill Growth
 
 If the task reveals a repeated problem area, a missing onboarding path, or a module cluster that would benefit from its own project skill doc, explicitly suggest adding one.
+
