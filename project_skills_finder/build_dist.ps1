@@ -156,8 +156,17 @@ function Build-DistNative {
     Copy-Item -LiteralPath (Join-Path $root "adapters\copilot\copilot-instructions.md") -Destination (Join-Path $copilotRoot "copilot-instructions.md") -Force
 }
 
+function Unblock-DistFiles {
+    if (-not (Test-Path -LiteralPath $dist)) {
+        return
+    }
+
+    Get-ChildItem -LiteralPath $dist -Recurse -File -Force | Unblock-File
+}
+
 try {
     Build-DistNative
+    Unblock-DistFiles
     Write-Host "Built dist packages under $dist"
 } catch {
     $wsl = Get-Command "wsl.exe" -ErrorAction SilentlyContinue
@@ -169,6 +178,7 @@ try {
         if ($LASTEXITCODE -ne 0) {
             throw "WSL fallback build failed with exit code $LASTEXITCODE"
         }
+        Unblock-DistFiles
         Write-Host "Built dist packages under $dist (via WSL fallback)"
     } else {
         throw

@@ -1,7 +1,6 @@
 ---
 name: project-skill-finder
-description: First-step router for project development tasks: invoke this BEFORE reading
-  source files or making changes. Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment or similar development tasks. Use only for project work, not general chat. Docs in docs/skills/ or skills/ will help you understand some key concepts, patterns and workflows.
+description: Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment, SSH, vault, plugin, rendering, or similar development tasks. Use only for project work, not general chat. Prefer project-local docs in docs/skills/ or skills/ before doing deeper repository work.
 user-invocable: false
 ---
 
