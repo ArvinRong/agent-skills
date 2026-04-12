@@ -1,4 +1,4 @@
-﻿# project_skills_finder
+# project_skills_finder
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -6,94 +6,145 @@
 
 它把三件事拆开处理：
 
-1. 一个全局 Codex skill 用来发现项目内的 skill 文档
-2. 项目自己的知识保存在版本化的 `docs/skills/` 中
-3. 项目持续记录哪些 skill 文档真正有帮助
+1. 一个轻量的全局路由 skill 负责发现项目内 skill 文档
+2. 项目自己的知识保存在版本化的 `docs/skills/` 或 `skills/` 中
+3. 使用反馈持续回流到文档体系里
 
-## 为什么要做这个
+## 仓库结构
 
-当项目知识不断在对话里重复出现时，很多人第一反应是继续往全局 skill 或 memory 里塞内容。
+这个子项目同时面向维护者和最终使用者：
 
-这个模式的思路不一样：
+- `core/project-skill-finder/`
+  - 三家 agent 共用的 skill 核心
+- `adapters/`
+  - 各 agent 自己的元数据或配套文件
+- `dist/`
+  - 给最终用户直接复制的安装目录
+- `build_dist.py`
+  - 根据 `core/` 和 `adapters/` 重新生成 `dist/`
 
-- 让全局 skill 保持轻量
-- 让项目知识留在项目里
-- 给 skill 的实际效果保留一层轻量反馈
+最终用户应该直接从 `dist/` 安装。维护者则修改 `core/` 和 `adapters/`，然后重新构建 `dist/`。
+
+## 各 Agent 的配置选择
+
+- Codex：
+  - 沿用共享的 `SKILL.md`
+  - 额外增加 `agents/openai.yaml`
+  - 在适配层里显式开启 implicit invocation
+- Claude Code：
+  - 使用自己的适配版 `SKILL.md`
+  - 通过 `user-invocable: false` 隐藏 slash 菜单入口
+- GitHub Copilot：
+  - 使用自己的适配版 `SKILL.md`
+  - 增加 `license: MIT`
+  - 额外提供可选的 `.github/copilot-instructions.md`
+
+默认情况下，Claude Code 和 Copilot 都不会为这个 router skill 预先放开宽泛的 shell 权限。因为它可能在很多仓库任务里自动触发，直接打开 `allowed-tools` 会让默认分发版本过于宽松。
+
+## 各 Agent 的安装方式
+
+### Codex
+
+复制：
+
+```text
+dist/codex/.agents/skills/project-skill-finder/
+```
+
+到 Codex 的技能目录，例如：
+
+- 仓库级：`.agents/skills/project-skill-finder`
+- 用户级：`~/.agents/skills/project-skill-finder`
+
+### Claude Code
+
+复制：
+
+```text
+dist/claude/.claude/skills/project-skill-finder/
+```
+
+到：
+
+- 项目级：`.claude/skills/project-skill-finder`
+- 用户级：`~/.claude/skills/project-skill-finder`
+
+### GitHub Copilot
+
+复制：
+
+```text
+dist/copilot/.github/skills/project-skill-finder/
+```
+
+到仓库中的：
+
+- `.github/skills/project-skill-finder`
+
+如果还想配套使用仓库级提示文件，也可以复制：
+
+```text
+dist/copilot/.github/copilot-instructions.md
+```
+
+到 `.github/copilot-instructions.md`。
 
 ## 它怎么工作
 
 ```mermaid
 flowchart LR
-    A["全局 Skill<br/>project-skill-finder"] --> B["项目 Skills 索引<br/>docs/skills/INDEX.md"]
+    A["路由 Skill<br/>project-skill-finder"] --> B["项目 Skills 索引<br/>docs/skills/INDEX.md"]
     B --> C["相关 Skill 文档<br/>docs/skills/*.md"]
     C --> D["实际项目工作"]
-    C --> E["Skill 统计数据<br/>SKILL_ANALYZATION_DATA.md"]
+    C --> E["结构化使用数据<br/>SKILL_USAGE.json"]
     E --> C
 ```
 
 全局 skill 自己不存项目知识，它只负责帮助 agent 找到项目内 skill 文档、按需加载最相关的内容，并在长期使用中积累轻量效果反馈。
 
-## 这个子项目包含什么
+## Core skill 里有什么
 
-- `project-skill-finder/`
-  - 真正可安装的全局 Codex skill
-- `templates/docs/skills/INDEX.md`
-  - 项目内 skill 文档的起始索引
-- `templates/docs/skills/SKILL_ANALYZATION_DATA.md`
-  - 使用效果统计表模板
-- `templates/docs/skills/EXAMPLE_MODULE_SKILL.md`
-  - 一个项目内模块 skill 示例
+共享核心 skill 包含：
 
-## 安装全局 skill
+- `SKILL.md`
+  - 宿主无关的路由说明
+- `templates/docs/skills/`
+  - 项目内 skill 的起始模板
+- `scripts/update_skill_usage.ps1`
+  - 面向 Windows 或 PowerShell 环境的 usage 更新脚本
+- `scripts/update_skill_usage.sh`
+  - 面向 macOS、Linux、WSL 的 shell 脚本
+- `scripts/update_skill_usage.py`
+  - 面向 Python 环境的可选备用实现
+- `scripts/sync_skill_usage_report.*`
+  - 专门用于把 `SKILL_USAGE.json` 渲染成 `SKILL_USAGE.md` 的同步工具
 
-把 `project-skill-finder/` 复制到你的 Codex skills 目录：
+## 项目内文件结构
 
-- Windows: `C:\Users\<you>\.codex\skills\project-skill-finder`
-- macOS / Linux: `~/.codex/skills/project-skill-finder`
-
-## 添加项目内 skills
-
-在你的项目里建立：
-
-```text
-docs/
-  skills/
-    INDEX.md
-    SKILL_ANALYZATION_DATA.md
-    <module>.md
-```
-
-全局 skill 会按下面顺序查找：
-
-1. `docs/skills/INDEX.md`
-2. `docs/skills/*.md`
-3. `skills/INDEX.md`
-4. `skills/*.md`
-
-## 快速开始
-
-1. 先写 1-2 份项目 skill 文档
-2. 增加一个 `INDEX.md` 作为总入口
-3. 让全局 skill 把任务路由到这些文档
-4. 在 `SKILL_ANALYZATION_DATA.md` 里记录使用效果
-5. 根据真实使用情况继续拆分、合并或优化文档`r`n6. 如果任务修改了该 skill 文档覆盖的问题域代码，也应回看这份文档是否需要同步更新
-
-## 推荐项目结构
+在具体项目里，这套 skill 期望看到类似结构：
 
 ```text
 docs/
   skills/
     INDEX.md
-    SKILL_ANALYZATION_DATA.md
-    command-system.md
-    ssh-runtime.md
+    SKILL_USAGE.json
+    SKILL_USAGE.md
     rendering.md
+    ssh-runtime.md
 ```
 
-## 统计字段
+项目内文档始终是知识真源。全局路由 skill 只负责帮助 agent 发现和使用这些文档。
 
-默认统计表包含：
+## Usage 统计
 
+`SKILL_USAGE.json` 是结构化真源。
+
+`SKILL_USAGE.md` 是从 JSON 数据重新生成的人类可读报表。
+
+默认统计字段包括：
+
+- `skill_id`
+- `file`
 - `used_count`
 - `helpful_count`
 - `not_useful_count`
@@ -111,15 +162,26 @@ docs/
 - `too_broad`
 - `poor_examples`
 
-## 为什么不只用 memory
+## 重新生成 dist
 
-memory 更适合记录偏好、协作习惯和一些长期上下文。
+修改完 `core/` 或 `adapters/` 后，运行：
 
-这个模式解决的是另一类问题：那些应该跟随仓库版本演进、能被团队共享、也能通过反复使用持续优化的项目知识。
+```bash
+./project_skills_finder/build_dist.sh
+```
 
-## Notes
+在 Windows 上，也可以运行：
 
-- 这不是一个重型框架，而是一套模式和 starter kit
-- 全局 skill 应该尽量保持轻量
-- 项目内文档应始终作为真正的知识来源
+```powershell
+.\project_skills_finder\build_dist.ps1
+```
 
+## 扩展到其他 Agent
+
+如果你想支持新的工具：
+
+1. 复用 `core/project-skill-finder/`
+2. 在 `adapters/<tool>/` 下增加该工具自己的适配文件
+3. 在 `build_dist.py` 里补上新的输出目录 `dist/<tool>/`
+
+这样共享逻辑只维护一份，而每个 agent 仍然可以保留自己的安装路径和宿主特性。

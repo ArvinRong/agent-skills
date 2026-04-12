@@ -14,9 +14,11 @@
 
 它结合了：
 
-- 一个轻量的全局路由 skill
+- 一个供维护者复用的共享 core skill
+- 面向 Codex、Claude Code、GitHub Copilot 的可直接复制 `dist/` 安装包
 - 项目内版本化的 `docs/skills/` 知识入口
-- 基于 `SKILL_ANALYZATION_DATA.md` 的轻量效果反馈机制
+- 基于 `SKILL_USAGE.json` 的结构化效果反馈
+- 基于 `SKILL_USAGE.md` 的 Markdown 报表
 
 详情见 [project_skills_finder/README.zh-CN.md](./project_skills_finder/README.zh-CN.md)。
 

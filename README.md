@@ -14,9 +14,11 @@ A starter pattern for building an evolvable AI skills layer for software project
 
 It combines:
 
-- a thin global router skill
+- a shared core skill for maintainers
+- ready-to-copy `dist/` packages for Codex, Claude Code, and GitHub Copilot
 - project-local `docs/skills/` knowledge
-- lightweight usefulness tracking with `SKILL_ANALYZATION_DATA.md`
+- structured usage tracking with `SKILL_USAGE.json`
+- a generated Markdown report with `SKILL_USAGE.md`
 
 See [project_skills_finder/README.md](./project_skills_finder/README.md) for details.
 

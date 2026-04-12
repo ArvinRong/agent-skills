@@ -1,4 +1,4 @@
-﻿# project_skills_finder
+# project_skills_finder
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -6,94 +6,145 @@
 
 It separates three concerns:
 
-1. A global Agent skill discovers project-local skill docs
-2. The project keeps its own knowledge in versioned `docs/skills/`
-3. The project tracks which skill docs are actually useful over time
+1. A thin global router skill discovers project-local skill docs
+2. The project keeps its own knowledge in versioned `docs/skills/` or `skills/`
+3. Usage tracking feeds back into the docs over time
 
-## Why this exists
+## Repository layout
 
-This pattern is useful when project knowledge keeps getting repeated in chat, but you do not want to solve that by stuffing more and more project detail into global skills or memory.
+This subproject is organized for both maintainers and end users:
 
-The idea is simple:
+- `core/project-skill-finder/`
+  - shared skill source used across agents
+- `adapters/`
+  - agent-specific metadata or companion files
+- `dist/`
+  - ready-to-copy install layouts for each agent
+- `build_dist.py`
+  - regenerates `dist/` from `core/` plus `adapters/`
 
-- keep the global skill thin
-- keep project knowledge inside the project
-- keep a lightweight feedback loop on what is actually helping
+End users should copy from `dist/`. Maintainers should edit `core/` and `adapters/`, then rebuild `dist/`.
+
+## Agent-specific config choices
+
+- Codex:
+  - keeps the shared `SKILL.md`
+  - adds `agents/openai.yaml`
+  - explicitly enables implicit invocation in adapter metadata
+- Claude Code:
+  - uses an adapter `SKILL.md`
+  - hides the router from the slash menu with `user-invocable: false`
+- GitHub Copilot:
+  - uses an adapter `SKILL.md`
+  - adds `license: MIT`
+  - ships an optional `.github/copilot-instructions.md`
+
+By default, Claude Code and Copilot do not pre-approve broad shell access for this router skill. Since it can trigger on many repository tasks, enabling `allowed-tools` too broadly would be riskier than it is helpful in the default distribution.
+
+## Install for each agent
+
+### Codex
+
+Copy:
+
+```text
+dist/codex/.agents/skills/project-skill-finder/
+```
+
+into your Codex skills location, for example:
+
+- repo-level: `.agents/skills/project-skill-finder`
+- user-level: `~/.agents/skills/project-skill-finder`
+
+### Claude Code
+
+Copy:
+
+```text
+dist/claude/.claude/skills/project-skill-finder/
+```
+
+into:
+
+- project-level: `.claude/skills/project-skill-finder`
+- personal-level: `~/.claude/skills/project-skill-finder`
+
+### GitHub Copilot
+
+Copy:
+
+```text
+dist/copilot/.github/skills/project-skill-finder/
+```
+
+into your repository at:
+
+- `.github/skills/project-skill-finder`
+
+If you also want the optional repository-wide hint file, copy:
+
+```text
+dist/copilot/.github/copilot-instructions.md
+```
+
+into `.github/copilot-instructions.md`.
 
 ## How it works
 
 ```mermaid
 flowchart LR
-    A["Global Skill<br/>project-skill-finder"] --> B["Project Skills Index<br/>docs/skills/INDEX.md"]
+    A["Router Skill<br/>project-skill-finder"] --> B["Project Skills Index<br/>docs/skills/INDEX.md"]
     B --> C["Relevant Skill Docs<br/>docs/skills/*.md"]
     C --> D["Actual Project Work"]
-    C --> E["Skill Analyzation Data<br/>SKILL_ANALYZATION_DATA.md"]
+    C --> E["Structured Usage Data<br/>SKILL_USAGE.json"]
     E --> C
 ```
 
 The global skill does not carry project knowledge itself. It only helps the agent discover project-local docs, load the minimum relevant ones, and keep a lightweight usefulness signal over time.
 
-## What this subproject contains
+## Core skill contents
 
-- `project-skill-finder/`
-  - the actual global Codex skill
-- `templates/docs/skills/INDEX.md`
-  - a starter index for project-local skill docs
-- `templates/docs/skills/SKILL_ANALYZATION_DATA.md`
-  - a starter usage-tracking table
-- `templates/docs/skills/EXAMPLE_MODULE_SKILL.md`
-  - an example project-local skill doc
+The shared core skill contains:
 
-## Install the global skill
+- `SKILL.md`
+  - host-neutral routing instructions
+- `templates/docs/skills/`
+  - starter files for project-local skills
+- `scripts/update_skill_usage.ps1`
+  - PowerShell updater for Windows or PowerShell-first environments
+- `scripts/update_skill_usage.sh`
+  - shell updater for macOS, Linux, or WSL
+- `scripts/update_skill_usage.py`
+  - optional fallback implementation for Python-based environments
+- `scripts/sync_skill_usage_report.*`
+  - dedicated tools that regenerate `SKILL_USAGE.md` from `SKILL_USAGE.json`
 
-Copy `project-skill-finder/` into your Codex skills directory:
+## Project-local files
 
-- Windows: `C:\Users\<you>\.codex\skills\project-skill-finder`
-- macOS / Linux: `~/.codex/skills/project-skill-finder`
-
-## Add project-local skills
-
-In your project, create:
-
-```text
-docs/
-  skills/
-    INDEX.md
-    SKILL_ANALYZATION_DATA.md
-    <module>.md
-```
-
-The global skill will look for project-local docs in this order:
-
-1. `docs/skills/INDEX.md`
-2. `docs/skills/*.md`
-3. `skills/INDEX.md`
-4. `skills/*.md`
-
-## Quick start
-
-1. Start with one or two project skill docs
-2. Add an `INDEX.md` as the main entry
-3. Let the global skill route into those docs
-4. Track usage in `SKILL_ANALYZATION_DATA.md`
-5. Refine, split, or remove project skill docs based on real usage`r`n6. If a task changes the same problem area covered by a project skill doc, review whether that doc should be refreshed
-
-## Suggested project structure
+In a project, the skill expects something like:
 
 ```text
 docs/
   skills/
     INDEX.md
-    SKILL_ANALYZATION_DATA.md
-    command-system.md
-    ssh-runtime.md
+    SKILL_USAGE.json
+    SKILL_USAGE.md
     rendering.md
+    ssh-runtime.md
 ```
 
-## Tracking fields
+The project-local docs remain the source of truth. The global router only helps an agent discover and use them.
 
-The default tracking table uses:
+## Usage tracking
 
+`SKILL_USAGE.json` is the structured source of truth.
+
+`SKILL_USAGE.md` is the human-readable report regenerated from the JSON data.
+
+The default tracking fields are:
+
+- `skill_id`
+- `file`
 - `used_count`
 - `helpful_count`
 - `not_useful_count`
@@ -111,15 +162,26 @@ Recommended `not_useful_reasons` labels:
 - `too_broad`
 - `poor_examples`
 
-## Why not just use memory
+## Rebuild dist
 
-Memory is useful for preferences and long-lived collaboration context.
+After editing `core/` or `adapters/`, rebuild the installable outputs:
 
-This pattern is for something different: project knowledge that should be versioned with the repo, shared across collaborators, and improved through repeated use.
+```bash
+./project_skills_finder/build_dist.sh
+```
 
-## Notes
+On Windows, you can also run:
 
-- This repo is a pattern and starter kit, not a heavy framework.
-- The global skill should stay small.
-- Project-local docs should remain the source of truth.
+```powershell
+.\project_skills_finder\build_dist.ps1
+```
 
+## Extend to another agent
+
+To support another tool:
+
+1. Reuse `core/project-skill-finder/`
+2. Add a new adapter under `adapters/<tool>/`
+3. Teach `build_dist.py` how to emit the install layout into `dist/<tool>/`
+
+This keeps the shared skill logic in one place while letting each agent keep its own install path and host-specific metadata.
