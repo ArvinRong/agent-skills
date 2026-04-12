@@ -39,7 +39,7 @@
 - GitHub Copilot：
   - 沿用共享的 `SKILL.md`
   - 增加 `license: MIT`
-  - 额外提供可选的 `.github/copilot-instructions.md`
+  - 在项目级安装 skill 时，额外提供可选的 `.github/copilot-instructions.md`
 
 默认情况下，Claude Code 和 Copilot 都不会为这个 router skill 预先放开宽泛的 shell 权限。因为它可能在很多仓库任务里自动触发，直接打开 `allowed-tools` 会让默认分发版本过于宽松。
 
@@ -55,8 +55,10 @@ dist/codex/.agents/skills/project-skill-finder/
 
 到 Codex 的技能目录，例如：
 
-- 仓库级：`.agents/skills/project-skill-finder`
-- 用户级：`~/.agents/skills/project-skill-finder`
+- 仓库级（仅对单仓库生效）：`.agents/skills/project-skill-finder`
+- 用户级（跨项目共享）：`~/.agents/skills/project-skill-finder`
+或
+- 用户级（跨项目共享）：`~/.codex/skills/project-skill-finder`
 
 ### Claude Code
 
@@ -68,7 +70,7 @@ dist/claude/.claude/skills/project-skill-finder/
 
 到：
 
-- 项目级：`.claude/skills/project-skill-finder`
+- 仓库级：`.claude/skills/project-skill-finder`
 - 用户级：`~/.claude/skills/project-skill-finder`
 
 ### GitHub Copilot
@@ -79,9 +81,11 @@ dist/claude/.claude/skills/project-skill-finder/
 dist/copilot/.github/skills/project-skill-finder/
 ```
 
-到仓库中的：
+到：
 
-- `.github/skills/project-skill-finder`
+- 对于仓库级 skills，在仓库中创建并使用 `.github/skills`、`.claude/skills` 或 `.agents/skills` 目录。
+
+- 对于用户级 skills，在家目录创建并使用 `~/.copilot/skills`、`~/.claude/skills` 或 `~/.agents/skills` 目录
 
 如果还想配套使用仓库级提示文件，也可以复制：
 
@@ -257,7 +261,7 @@ owner_area: rendering
 
 ## 扩展到其他 Agent
 
-如果你想支持新的工具：
+如果你想支持新的Agent工具：
 
 1. 复用 `core/project-skill-finder/`
 2. 在 `adapters/<tool>/` 下增加该工具自己的适配文件

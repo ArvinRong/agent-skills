@@ -39,7 +39,7 @@ End users should copy from `dist/`. Maintainers should edit `core/` and `adapter
 - GitHub Copilot:
   - keeps the shared `SKILL.md`
   - adds `license: MIT`
-  - ships an optional `.github/copilot-instructions.md`
+  - ships an optional `.github/copilot-instructions.md` when adding the skill at the project level
 
 By default, Claude Code and Copilot do not pre-approve broad shell access for this router skill. Since it can trigger on many repository tasks, enabling `allowed-tools` too broadly would be riskier than it is helpful in the default distribution.
 
@@ -57,6 +57,8 @@ into your Codex skills location, for example:
 
 - repo-level: `.agents/skills/project-skill-finder`
 - user-level: `~/.agents/skills/project-skill-finder`
+or
+- user-level: `~/.codex/skills/project-skill-finder`
 
 ### Claude Code
 
@@ -69,7 +71,7 @@ dist/claude/.claude/skills/project-skill-finder/
 into:
 
 - project-level: `.claude/skills/project-skill-finder`
-- personal-level: `~/.claude/skills/project-skill-finder`
+- user-level: `~/.claude/skills/project-skill-finder`
 
 ### GitHub Copilot
 
@@ -79,9 +81,11 @@ Copy:
 dist/copilot/.github/skills/project-skill-finder/
 ```
 
-into your repository at:
+into :
 
-- `.github/skills/project-skill-finder`
+- For project skills, specific to a single repository, create and use a .github/skills, .claude/skills, or .agents/skills directory in your repository. 
+
+- For user-level skills, shared across projects, create and use a ~/.copilot/skills, ~/.claude/skills, or ~/.agents/skills directory in your home directory.
 
 If you also want the optional repository-wide hint file, copy:
 
@@ -257,7 +261,7 @@ On Windows, you can also run:
 
 ## Extend to another agent
 
-To support another tool:
+To support another Agent tool:
 
 1. Reuse `core/project-skill-finder/`
 2. Add a new adapter under `adapters/<tool>/`
