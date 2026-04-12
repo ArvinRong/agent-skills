@@ -108,6 +108,14 @@ flowchart LR
 
 全局 skill 自己不存项目知识，它只负责帮助 agent 找到项目内 skill 文档、按需加载最相关的内容，并在长期使用中积累轻量效果反馈。
 
+- Claude Code 中的 Skill
+![Screenshot](docs/images/skill_in_claude_code.png)
+- Codex 中的 Skill
+![Screenshot](docs/images/skill_in_codex.png)
+- GitHub Copilot 中的 Skill
+![Screenshot](docs/images/skill_in_github_copilot_1.png)
+![Screenshot](docs/images/skill_in_github_copilot_2.png)
+
 ## Core skill 里有什么
 
 共享核心 skill 包含：

@@ -108,6 +108,14 @@ flowchart LR
 
 The global skill does not carry project knowledge itself. It only helps the agent discover project-local docs, load the minimum relevant ones, and keep a lightweight usefulness signal over time.
 
+- Skill in Claude Code
+![Screenshot](docs/images/skill_in_claude_code.png)
+- Skill in Codex
+![Screenshot](docs/images/skill_in_codex.png)
+- Skill in GitHub Copilot
+![Screenshot](docs/images/skill_in_github_copilot_1.png)
+![Screenshot](docs/images/skill_in_github_copilot_2.png)
+
 ## Core skill contents
 
 The shared core skill contains:
