@@ -12,7 +12,13 @@ reset_dir() {
 
 copy_core_skill() {
   reset_dir "$1"
-  cp -R "$CORE"/. "$1"/
+  for item in "$CORE"/*; do
+    base=$(basename "$item")
+    if [ "$base" = "templates" ]; then
+      continue
+    fi
+    cp -R "$item" "$1"/
+  done
 }
 
 copy_core_skill "$DIST/codex/.agents/skills/project-skill-finder"

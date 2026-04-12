@@ -25,6 +25,8 @@ This subproject is organized for both maintainers and end users:
 
 End users should copy from `dist/`. Maintainers should edit `core/` and `adapters/`, then rebuild `dist/`.
 
+`dist/` is intentionally runtime-only. It does not include the project doc templates. Use `core/project-skill-finder/templates/` when you want starter files for `docs/skills/`.
+
 ## Agent-specific config choices
 
 - Codex:
@@ -108,8 +110,6 @@ The shared core skill contains:
 
 - `SKILL.md`
   - host-neutral routing instructions
-- `templates/docs/skills/`
-  - starter files for project-local skills
 - `scripts/update_skill_usage.ps1`
   - PowerShell updater for Windows or PowerShell-first environments
 - `scripts/update_skill_usage.sh`
@@ -134,6 +134,85 @@ docs/
 ```
 
 The project-local docs remain the source of truth. The global router only helps an agent discover and use them.
+
+## Index and skill doc templates
+
+`INDEX.md` should be maintained by the project team. It works best as a dual-track file:
+
+Find the starter templates under:
+
+- `core/project-skill-finder/templates/docs/skills/`
+
+- a machine-friendly YAML routing block
+- a short human-friendly table
+
+Recommended `INDEX.md` template:
+
+````md
+# Project Skills Index
+
+## Routing Index
+
+```yaml
+skills:
+  - id: rendering-system
+    file: rendering.md
+    title: Rendering System Skill
+    purpose: Navigate rendering entrypoints, refresh flow, and key tests.
+    when_to_use:
+      - debugging rendering regressions
+      - changing refresh behavior
+    keywords:
+      - render
+      - refresh
+      - repaint
+    priority: high
+```
+
+## Human Index
+
+| Skill ID | Skill | Purpose | When to use | Keywords |
+|---|---|---|---|---|
+| `rendering-system` | [rendering](./rendering.md) | Navigate rendering entrypoints, refresh flow, and key tests | Debugging rendering regressions or changing refresh behavior | `render`, `refresh`, `repaint` |
+````
+
+Recommended project skill doc template:
+
+````md
+---
+id: rendering-system
+title: Rendering System Skill
+description: Helps the agent navigate rendering entrypoints, refresh flow, and key tests.
+purpose: Navigate rendering entrypoints, refresh flow, and key tests.
+when_to_use:
+  - debugging rendering regressions
+  - changing refresh behavior
+keywords:
+  - render
+  - refresh
+  - repaint
+owner_area: rendering
+---
+
+# Rendering System Skill
+
+## What this area owns
+
+Describe the module or problem area in one or two lines.
+
+## Read these first
+
+- `src/rendering/index.ts`
+- `src/rendering/refresh.ts`
+- `test/rendering.test.ts`
+
+## Task map
+
+- Use this doc first when the task mentions rendering behavior directly
+- Use a different doc if the problem is mainly outside the rendering area
+````
+
+The key idea is to keep routing metadata visible in `INDEX.md`, while keeping the full module knowledge inside each skill doc.
 
 ## Usage tracking
 

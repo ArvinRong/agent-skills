@@ -18,8 +18,11 @@ function Copy-CoreSkill {
     param([string]$SkillDir)
 
     Reset-Directory -Path $SkillDir
-    Get-ChildItem -Force -Path $core | ForEach-Object {
-        Copy-Item -LiteralPath $_.FullName -Destination $SkillDir -Recurse -Force
+    foreach ($item in Get-ChildItem -Force -Path $core) {
+        if ($item.Name -eq "templates") {
+            continue
+        }
+        Copy-Item -LiteralPath $item.FullName -Destination $SkillDir -Recurse -Force
     }
 }
 

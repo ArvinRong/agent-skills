@@ -2,10 +2,16 @@
 id: example-module
 title: Example Module Skill
 description: Helps the agent navigate the example module's main entrypoints, tests, and common failure modes.
+purpose: Navigate the example module's entrypoints, tests, and common failure modes.
 when_to_use:
   - implementing changes in the example module
   - debugging example module behavior or tests
   - reviewing boundaries around the example module
+keywords:
+  - example
+  - module
+  - tests
+owner_area: example-module
 ---
 
 # Example Module Skill
@@ -20,6 +26,12 @@ Describe the module or problem area in one or two lines.
 
 - `src/example.js`
 - `test/example.test.js`
+
+## Task map
+
+- Use this doc first when a task mentions the example module by name
+- Use this doc when errors land in the example module's tests or entrypoints
+- Use a different doc if the task is mainly about shared infrastructure outside this area
 
 ## What usually matters
 

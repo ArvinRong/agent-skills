@@ -15,16 +15,19 @@ Use this skill only for project development tasks.
    - `skills/INDEX.md`
    - `skills/*.md` excluding control docs such as `INDEX.md` and `SKILL_USAGE.md`
 2. If an `INDEX.md` exists, read it first.
-3. Then read only the most relevant 1-2 project skill docs for the task.
-4. Prefer docs that expose stable YAML frontmatter such as `id`, `description`, and `when_to_use`.
-5. Do not bulk-load all project skill docs.
-6. If no `INDEX.md` exists, enumerate candidate `.md` files in that directory, exclude control docs, and choose the most relevant 1-2.
-7. If no project skill docs exist, continue normally without error.
+3. In `INDEX.md`, prefer the routing YAML block first, then use the human-readable table as a cross-check.
+4. Then read only the most relevant 1-2 project skill docs for the task.
+5. Prefer docs that expose stable YAML frontmatter such as `id`, `description`, `purpose`, and `when_to_use`.
+6. Do not bulk-load all project skill docs.
+7. If no `INDEX.md` exists, enumerate candidate `.md` files in that directory, exclude control docs, and choose the most relevant 1-2.
+8. If no project skill docs exist, continue normally without error.
 
 ## Project-Local Rules
 
 - Treat project-local docs as the source of truth.
-- Project-local skill docs should ideally carry stable YAML frontmatter such as `id`, `title`, `description`, and `when_to_use`.
+- `INDEX.md` should act as the routing index and should be maintained by the project team.
+- The routing index should keep a YAML summary block plus a short human-readable table in sync.
+- Project-local skill docs should ideally carry stable YAML frontmatter such as `id`, `title`, `description`, `purpose`, and `when_to_use`.
 - If project skill docs were actually read and used, update the usage tracking file in the same skill directory.
 - If a bundled usage script is available, prefer running it instead of editing tracking files by hand.
 - On Windows or PowerShell-first environments, prefer `scripts/update_skill_usage.ps1`.
@@ -47,6 +50,7 @@ Use this skill only for project development tasks.
 ## Context Budget
 
 - Read the index first when present.
+- Prefer routing from index metadata before opening full project docs.
 - Load the minimum relevant project docs.
 - Avoid unrelated project skill docs unless the task expands.
 

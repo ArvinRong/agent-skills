@@ -25,6 +25,8 @@
 
 最终用户应该直接从 `dist/` 安装。维护者则修改 `core/` 和 `adapters/`，然后重新构建 `dist/`。
 
+`dist/` 刻意只保留运行时需要的内容，不再包含项目文档模板。若要初始化 `docs/skills/`，请使用 `core/project-skill-finder/templates/` 里的模板。
+
 ## 各 Agent 的配置选择
 
 - Codex：
@@ -108,8 +110,6 @@ flowchart LR
 
 - `SKILL.md`
   - 宿主无关的路由说明
-- `templates/docs/skills/`
-  - 项目内 skill 的起始模板
 - `scripts/update_skill_usage.ps1`
   - 面向 Windows 或 PowerShell 环境的 usage 更新脚本
 - `scripts/update_skill_usage.sh`
@@ -134,6 +134,85 @@ docs/
 ```
 
 项目内文档始终是知识真源。全局路由 skill 只负责帮助 agent 发现和使用这些文档。
+
+## INDEX 与实际 skill 文档模板
+
+`INDEX.md` 需要由项目团队自己维护。最佳实践是使用双轨结构：
+
+模板文件可以从这里获取：
+
+- `core/project-skill-finder/templates/docs/skills/`
+
+- 一段给 router 用的 YAML 索引块
+- 一张给人看的简短表格
+
+推荐的 `INDEX.md` 模板：
+
+````md
+# Project Skills Index
+
+## Routing Index
+
+```yaml
+skills:
+  - id: rendering-system
+    file: rendering.md
+    title: Rendering System Skill
+    purpose: Navigate rendering entrypoints, refresh flow, and key tests.
+    when_to_use:
+      - debugging rendering regressions
+      - changing refresh behavior
+    keywords:
+      - render
+      - refresh
+      - repaint
+    priority: high
+```
+
+## Human Index
+
+| Skill ID | Skill | Purpose | When to use | Keywords |
+|---|---|---|---|---|
+| `rendering-system` | [rendering](./rendering.md) | Navigate rendering entrypoints, refresh flow, and key tests | Debugging rendering regressions or changing refresh behavior | `render`, `refresh`, `repaint` |
+````
+
+推荐的实际 skill 文档模板：
+
+````md
+---
+id: rendering-system
+title: Rendering System Skill
+description: Helps the agent navigate rendering entrypoints, refresh flow, and key tests.
+purpose: Navigate rendering entrypoints, refresh flow, and key tests.
+when_to_use:
+  - debugging rendering regressions
+  - changing refresh behavior
+keywords:
+  - render
+  - refresh
+  - repaint
+owner_area: rendering
+---
+
+# Rendering System Skill
+
+## What this area owns
+
+用一两句话描述这个问题域负责什么。
+
+## Read these first
+
+- `src/rendering/index.ts`
+- `src/rendering/refresh.ts`
+- `test/rendering.test.ts`
+
+## Task map
+
+- 当任务直接提到 rendering 行为时，优先读这份文档
+- 如果问题主要发生在 rendering 之外，就切到别的 skill 文档
+````
+
+核心原则是：路由元数据放在 `INDEX.md` 里可见，完整模块知识放在各自的 skill 文档里。
 
 ## Usage 统计
 
