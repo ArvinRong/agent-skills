@@ -34,10 +34,10 @@ End users should copy from `dist/`. Maintainers should edit `core/` and `adapter
   - adds `agents/openai.yaml`
   - explicitly enables implicit invocation in adapter metadata
 - Claude Code:
-  - uses an adapter `SKILL.md`
+  - keeps the shared `SKILL.md`
   - hides the router from the slash menu with `user-invocable: false`
 - GitHub Copilot:
-  - uses an adapter `SKILL.md`
+  - keeps the shared `SKILL.md`
   - adds `license: MIT`
   - ships an optional `.github/copilot-instructions.md`
 

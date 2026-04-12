@@ -34,10 +34,10 @@
   - 额外增加 `agents/openai.yaml`
   - 在适配层里显式开启 implicit invocation
 - Claude Code：
-  - 使用自己的适配版 `SKILL.md`
+  - 沿用共享的 `SKILL.md`
   - 通过 `user-invocable: false` 隐藏 slash 菜单入口
 - GitHub Copilot：
-  - 使用自己的适配版 `SKILL.md`
+  - 沿用共享的 `SKILL.md`
   - 增加 `license: MIT`
   - 额外提供可选的 `.github/copilot-instructions.md`
 

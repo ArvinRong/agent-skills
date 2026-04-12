@@ -1,12 +1,23 @@
 ---
 name: project-skill-finder
-description: Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment, SSH, vault, plugin, rendering, or similar development tasks. Use only for project work, not general chat. Prefer project-local docs in docs/skills/ or skills/ before doing deeper repository work.
+description: First-step router for project development tasks: invoke this BEFORE reading
+  source files or making changes. Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment or similar development tasks. Use only for project work, not general chat. Docs in docs/skills/ or skills/ will help you understand some key concepts, patterns and workflows.
 user-invocable: false
 ---
 
 # Project Skill Finder
 
 Use this skill only for project development tasks.
+
+## When This Skill Must Fire
+
+  Invoke this skill **before** the first Glob/Grep/Read call on source files when:
+  - The task involves writing, changing, or reviewing project code or tests
+  - The user asks "how does X work", "what should I add", or "help me implement Y"
+  - Any task that would otherwise start with codebase exploration
+
+Do NOT:
+  - Start reading source files to understand the domain without checking skill docs first
 
 ## Workflow
 
@@ -21,6 +32,7 @@ Use this skill only for project development tasks.
 5. Do not bulk-load all project skill docs.
 6. If no `INDEX.md` exists, enumerate candidate `.md` files in that directory, exclude control docs, and choose the most relevant 1-2.
 7. If no project skill docs exist, continue normally without error.
+8. If there are no helpful relevant skill docs, then continue with the task as usual.
 
 ## Project-Local Rules
 

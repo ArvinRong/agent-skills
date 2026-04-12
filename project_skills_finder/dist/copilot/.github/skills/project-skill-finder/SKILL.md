@@ -1,12 +1,24 @@
 ---
 name: project-skill-finder
-description: Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment, SSH, vault, plugin, rendering, or similar development tasks. Use only for project work, not general chat. Prefer project-local docs in docs/skills/ or skills/ before doing deeper repository work.
+description: First-step router for project development tasks: invoke this BEFORE reading
+  source files or making changes. Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment or similar development tasks. Use only for project work, not general chat. Docs in docs/skills/ or skills/ will help you understand some key concepts, patterns and workflows.
+user-invocable: false
 license: MIT
 ---
 
 # Project Skill Finder
 
 Use this skill only for project development tasks.
+
+## When This Skill Must Fire
+
+  Invoke this skill **before** the first Glob/Grep/Read call on source files when:
+  - The task involves writing, changing, or reviewing project code or tests
+  - The user asks "how does X work", "what should I add", or "help me implement Y"
+  - Any task that would otherwise start with codebase exploration
+
+Do NOT:
+  - Start reading source files to understand the domain without checking skill docs first
 
 ## Workflow
 
@@ -21,6 +33,7 @@ Use this skill only for project development tasks.
 5. Do not bulk-load all project skill docs.
 6. If no `INDEX.md` exists, enumerate candidate `.md` files in that directory, exclude control docs, and choose the most relevant 1-2.
 7. If no project skill docs exist, continue normally without error.
+8. If there are no helpful relevant skill docs, then continue with the task as usual.
 
 ## Project-Local Rules
 
@@ -44,7 +57,7 @@ Use this skill only for project development tasks.
 - In multi-agent tasks, prefer having the main agent perform the shared data update.
 - If a task used a project skill doc and also changed code, tests, entrypoints, or behavior in that same problem area, review whether the skill doc should be refreshed before closing the task.
 - If the doc is clearly outdated, update it; if the need is plausible but uncertain, explicitly prompt whether the project skill doc should be updated.
-- Do not set `allowed-tools: shell` by default for this skill. Because this router may activate on many repository tasks, broad shell pre-approval would be too permissive for a default distribution.
+- Do not pre-approve broad shell access for this skill by default. This router can auto-trigger, so shell execution should still follow the host's normal approval flow unless a team intentionally narrows and enables it.
 
 ## Context Budget
 
