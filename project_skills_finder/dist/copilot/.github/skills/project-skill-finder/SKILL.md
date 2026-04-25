@@ -1,16 +1,16 @@
 ---
 name: project-skill-finder
-description: Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment, SSH, vault, plugin, rendering, or similar development tasks. Use only for project work, not general chat. Prefer project-local docs in docs/skills/ or skills/ before doing deeper repository work.
+description: Discover and route into project-local skill docs when working in a software repository on implementation, debugging, testing, architecture, command, runtime, deployment,plugin, rendering, or similar development tasks. Use only for project work, not general chat. Prefer project-local docs in docs/skills/ or skills/ before doing deeper repository work.
 license: MIT
 ---
 
 # Project Skill Finder
 
-Use this skill only for project development tasks.
+This skill should only be used for tasks related to project development, including debugging, design, and implementation.
 
 ## When This Skill Must Fire
 
-  Invoke this skill **before** the first Glob/Grep/Read call on source files when:
+  Invoke this skill **before** the first codebase exploration action (e.g., searching, reading, or scanning source files using tools such as Glob or Grep)** when:
   - The task involves writing, changing, or reviewing project code or tests
   - The user asks "how does X work", "what should I add", or "help me implement Y"
   - Any task that would otherwise start with codebase exploration
@@ -20,18 +20,14 @@ Do NOT:
 
 ## Workflow
 
-1. Look for project-local skill docs in this order:
-   - `docs/skills/INDEX.md`
-   - `docs/skills/*.md` excluding control docs such as `INDEX.md` and `SKILL_USAGE.md`
-   - `skills/INDEX.md`
-   - `skills/*.md` excluding control docs such as `INDEX.md` and `SKILL_USAGE.md`
-2. If an `INDEX.md` exists, read it first.
-3. Then read only the most relevant 1-2 project skill docs for the task.
-4. Prefer docs that expose stable YAML frontmatter such as `id`, `description`, and `when_to_use`.
-5. Do not bulk-load all project skill docs.
-6. If no `INDEX.md` exists, enumerate candidate `.md` files in that directory, exclude control docs, and choose the most relevant 1-2.
-7. If no project skill docs exist, continue normally without error.
-8. If there are no helpful relevant skill docs, then continue with the task as usual.
+
+1. If an `skills/INDEX.md` or `docs/skills/INDEX.md` exists, read it first.
+2. Then read only the most relevant 1-2 project skill docs from `docs/skills` or `skills` folder for the task.
+3. Prefer docs that expose stable YAML frontmatter such as `id`, `description`, and `when_to_use`.
+4. Do not bulk-load all project skill docs.
+5. If no `INDEX.md` exists, enumerate candidate `.md` files in that directory, exclude control docs, and choose the most relevant 1-2.
+6. If no project skill docs exist, continue normally without error.
+7. If there are no helpful relevant skill docs, then continue with the task as usual.
 
 ## Project-Local Rules
 

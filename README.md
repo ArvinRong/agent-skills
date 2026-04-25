@@ -22,6 +22,14 @@ It combines:
 
 See [project_skills_finder/README.md](./project_skills_finder/README.md) for details.
 
+### `serena_lsp_companion`
+
+A narrow skill for using Serena as an LSP-style companion during repository development.
+
+It focuses on symbol overview, definition lookup, references, safe rename, and safe delete, while keeping text search, logs, tests, and normal edits with the host agent's regular tools.
+
+See [serena_lsp_companion/README.md](./serena_lsp_companion/README.md) for details.
+
 ## License
 
 MIT

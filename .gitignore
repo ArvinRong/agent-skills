@@ -8,6 +8,8 @@ node_modules/
 dist/
 !project_skills_finder/dist/
 !project_skills_finder/dist/**
+!serena_lsp_companion/dist/
+!serena_lsp_companion/dist/**
 build/
 coverage/
 

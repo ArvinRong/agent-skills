@@ -1,0 +1,6 @@
+interface:
+  display_name: "Serena LSP Companion"
+  short_description: "LSP-style Serena navigation"
+  default_prompt: "Use $serena-lsp-companion to control how Serena is used as an LSP companion for code navigation, references, safe rename, and safe delete."
+policy:
+  allow_implicit_invocation: true

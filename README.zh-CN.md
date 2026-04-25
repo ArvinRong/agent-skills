@@ -22,6 +22,14 @@
 
 详情见 [project_skills_finder/README.zh-CN.md](./project_skills_finder/README.zh-CN.md)。
 
+### `serena_lsp_companion`
+
+一个把 Serena 当作 LSP 风格能力使用的窄用途 skill。
+
+它聚焦符号概览、定义查找、引用分析、安全重命名和安全删除，同时把文本搜索、日志、测试和普通编辑继续交给宿主 agent 的常规工具。
+
+详情见 [serena_lsp_companion/README.zh-CN.md](./serena_lsp_companion/README.zh-CN.md)。
+
 ## License
 
 MIT
