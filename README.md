@@ -30,6 +30,12 @@ It focuses on symbol overview, definition lookup, references, safe rename, and s
 
 See [serena_lsp_companion/README.md](./serena_lsp_companion/README.md) for details.
 
+### `dameng_install`
+
+A reusable skill for standalone DM8 installations on Linux. It checks media, server resources and mounted storage, explains and confirms configuration choices, installs interactively and verifies runtime settings. It includes version-specific limitations and interrupted-installation recovery.
+
+Ready-to-copy packages are available for Codex, Claude Code and GitHub Copilot. See [dameng_install/README.md](./dameng_install/README.md).
+
 ## License
 
 MIT

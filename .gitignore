@@ -10,6 +10,8 @@ dist/
 !project_skills_finder/dist/**
 !serena_lsp_companion/dist/
 !serena_lsp_companion/dist/**
+!dameng_install/dist/
+!dameng_install/dist/**
 build/
 coverage/
 

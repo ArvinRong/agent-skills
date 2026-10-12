@@ -1,0 +1,6 @@
+interface:
+  display_name: "达梦数据库安装"
+  short_description: "面向麒麟与 openEuler 的达梦交互安装、逐项配置确认和验收"
+  default_prompt: "使用 $dameng-install 检查指定服务器与安装介质，逐项解释并确认配置，然后交互安装达梦数据库并核验实际参数。"
+policy:
+  allow_implicit_invocation: true

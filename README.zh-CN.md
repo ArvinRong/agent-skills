@@ -30,6 +30,12 @@
 
 详情见 [serena_lsp_companion/README.zh-CN.md](./serena_lsp_companion/README.zh-CN.md)。
 
+### `dameng_install`
+
+面向 Linux 单机达梦 DM8 的可复用安装 skill。先检查介质、服务器和磁盘挂载，解释并逐项确认配置，再交互安装、核验运行参数并交付部署记录；包含版本限制和断线续装经验。
+
+提供 Codex、Claude Code 和 GitHub Copilot 的分发目录。详情见 [dameng_install/README.zh-CN.md](./dameng_install/README.zh-CN.md)。
+
 ## License
 
 MIT
